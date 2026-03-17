@@ -67,6 +67,19 @@
         <a-asset-item id="modeloIndustrial" src="models/paletizadora.glb"></a-asset-item>
       </a-assets>
 
+      <!-- ===== LUCES ESCENA 1 ===== -->
+      <a-entity id="luces-1">
+        <a-light type="ambient"     intensity="1"   color="#ffffff"></a-light>
+        <a-light type="directional" intensity="0.8" color="#ffffff" position="-1 2 1"></a-light>
+      </a-entity>
+
+      <!-- ===== LUCES ESCENA 2 ===== -->
+      <a-entity id="luces-2" visible="false">
+        <a-light type="ambient"     intensity="1.5" color="#ffffff"></a-light>
+        <a-light type="directional" intensity="2"   color="#ffffff" position="1 4 2"></a-light>
+        <a-light type="point"       intensity="1.5" color="#ffffff" position="0 2 -3"></a-light>
+      </a-entity>
+
       <!-- ===== ESCENA 1: Primitivas geométricas ===== -->
       <a-entity id="escena-primitivas">
         <a-box      position="0 1 -3"  rotation="0 45 0" color="#4CC3D9"></a-box>
@@ -80,9 +93,9 @@
       <a-entity id="escena-cad" visible="false">
         <a-entity
           gltf-model="#modeloIndustrial"
-          position="0 0 -5"
+          position="-10 0 -20"
           scale="1 1 1"
-          rotation="-90 0 0">
+          rotation="0 0 0">
         </a-entity>
         <a-plane rotation="-90 0 0" width="30" height="30" color="#2a2e35"></a-plane>
         <a-sky color="#1a1e26"></a-sky>
@@ -105,17 +118,23 @@
       function cambiarEscena(num) {
         const primitivas = document.getElementById('escena-primitivas');
         const cad        = document.getElementById('escena-cad');
+        const luces1     = document.getElementById('luces-1');
+        const luces2     = document.getElementById('luces-2');
         const btnP       = document.getElementById('btn-primitivas');
         const btnC       = document.getElementById('btn-cad');
 
         if (num === 1) {
           primitivas.setAttribute('visible', 'true');
           cad.setAttribute('visible', 'false');
+          luces1.setAttribute('visible', 'true');
+          luces2.setAttribute('visible', 'false');
           btnP.classList.add('active');
           btnC.classList.remove('active');
         } else {
           primitivas.setAttribute('visible', 'false');
           cad.setAttribute('visible', 'true');
+          luces1.setAttribute('visible', 'false');
+          luces2.setAttribute('visible', 'true');
           btnP.classList.remove('active');
           btnC.classList.add('active');
         }
