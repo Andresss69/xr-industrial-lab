@@ -2,56 +2,124 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>XR Industrial Lab - Paletizadora</title>
+    <title>XR Industrial Lab</title>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      #ui-overlay {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        background: rgba(10, 14, 20, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-family: 'Courier New', monospace;
+      }
+
+      .scene-btn {
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.5);
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .scene-btn:hover {
+        border-color: #4CC3D9;
+        color: #4CC3D9;
+      }
+
+      .scene-btn.active {
+        background: #4CC3D9;
+        border-color: #4CC3D9;
+        color: #0a0e14;
+        font-weight: bold;
+      }
+
+      #scene-label {
+        color: rgba(255,255,255,0.35);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0 6px;
+      }
+    </style>
   </head>
   <body>
     <a-scene>
 
-      <!-- ===== ASSETS: carga previa del modelo GLB ===== -->
+      <!-- ===== ASSETS ===== -->
       <a-assets>
         <a-asset-item id="modeloIndustrial" src="models/paletizadora.glb"></a-asset-item>
       </a-assets>
 
-      <!-- ===== MODELO CAD ===== -->
-      <a-entity
-        gltf-model="#modeloIndustrial"
-        position="0 0 -5"
-        scale="1 1 1"
-        rotation="0 0 0">
+      <!-- ===== ESCENA 1: Primitivas geométricas ===== -->
+      <a-entity id="escena-primitivas">
+        <a-box      position="0 1 -3"  rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere   position="2 1 -4"  radius="1"        color="#EF2D5E"></a-sphere>
+        <a-cylinder position="-2 1 -4" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-plane    rotation="-90 0 0" width="20" height="20" color="#7BC8A4"></a-plane>
+        <a-sky color="#ECECEC"></a-sky>
       </a-entity>
 
-      <!-- ===== PRIMITIVAS de referencia (Parte A/C) ===== -->
-      <a-box
-        position="0 1 -3"
-        rotation="0 45 0"
-        color="#4CC3D9">
-      </a-box>
-
-      <a-sphere
-        position="2 1 -4"
-        radius="1"
-        color="#EF2D5E">
-      </a-sphere>
-
-      <a-cylinder
-        position="-2 1 -4"
-        radius="0.5"
-        height="1.5"
-        color="#FFC65D">
-      </a-cylinder>
-
-      <!-- Piso -->
-      <a-plane
-        rotation="-90 0 0"
-        width="20"
-        height="20"
-        color="#7BC8A4">
-      </a-plane>
-
-      <!-- Cielo -->
-      <a-sky color="#ECECEC"></a-sky>
+      <!-- ===== ESCENA 2: Modelo CAD Paletizadora ===== -->
+      <a-entity id="escena-cad" visible="false">
+        <a-entity
+          gltf-model="#modeloIndustrial"
+          position="0 0 -5"
+          scale="1 1 1"
+          rotation="0 0 0">
+        </a-entity>
+        <a-plane rotation="-90 0 0" width="30" height="30" color="#2a2e35"></a-plane>
+        <a-sky color="#1a1e26"></a-sky>
+      </a-entity>
 
     </a-scene>
+
+    <!-- ===== UI: Botones de cambio de escena ===== -->
+    <div id="ui-overlay">
+      <span id="scene-label">Escena</span>
+      <button class="scene-btn active" id="btn-primitivas" onclick="cambiarEscena(1)">
+        🔷 Primitivas
+      </button>
+      <button class="scene-btn" id="btn-cad" onclick="cambiarEscena(2)">
+        🏭 Paletizadora
+      </button>
+    </div>
+
+    <script>
+      function cambiarEscena(num) {
+        const primitivas = document.getElementById('escena-primitivas');
+        const cad        = document.getElementById('escena-cad');
+        const btnP       = document.getElementById('btn-primitivas');
+        const btnC       = document.getElementById('btn-cad');
+
+        if (num === 1) {
+          primitivas.setAttribute('visible', 'true');
+          cad.setAttribute('visible', 'false');
+          btnP.classList.add('active');
+          btnC.classList.remove('active');
+        } else {
+          primitivas.setAttribute('visible', 'false');
+          cad.setAttribute('visible', 'true');
+          btnP.classList.remove('active');
+          btnC.classList.add('active');
+        }
+      }
+    </script>
   </body>
 </html>
