@@ -2,13 +2,26 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>XR Industrial Lab - Parte A</title>
+    <title>XR Industrial Lab - Paletizadora</title>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
   </head>
   <body>
     <a-scene>
 
-      <!-- Primitivas geométricas básicas -->
+      <!-- ===== ASSETS: carga previa del modelo GLB ===== -->
+      <a-assets>
+        <a-asset-item id="modeloIndustrial" src="models/paletizadora.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- ===== MODELO CAD ===== -->
+      <a-entity
+        gltf-model="#modeloIndustrial"
+        position="0 0 -5"
+        scale="1 1 1"
+        rotation="0 0 0">
+      </a-entity>
+
+      <!-- ===== PRIMITIVAS de referencia (Parte A/C) ===== -->
       <a-box
         position="0 1 -3"
         rotation="0 45 0"
@@ -31,8 +44,8 @@
       <!-- Piso -->
       <a-plane
         rotation="-90 0 0"
-        width="10"
-        height="10"
+        width="20"
+        height="20"
         color="#7BC8A4">
       </a-plane>
 
